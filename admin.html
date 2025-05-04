@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Upload Slideshow Image</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; text-align: center; }
+    input, button { padding: 10px; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Admin Login</h2>
+  <input type="password" id="pass" placeholder="Enter Password" />
+  <button onclick="checkLogin()">Login</button>
+
+  <div id="adminArea" style="display:none;">
+    <h3>Update Slideshow Image URLs</h3>
+    <textarea id="imageList" rows="6" cols="50"></textarea><br/>
+    <button onclick="save()">Save URLs</button>
+    <p>Copy this to your main HTML's image array.</p>
+  </div>
+
+  <script>
+    const PASSWORD = "yourPasswordHere"; // change to something secure
+
+    function checkLogin() {
+      const entered = document.getElementById('pass').value;
+      if (entered === PASSWORD) {
+        document.getElementById('adminArea').style.display = 'block';
+      } else {
+        alert('Incorrect password');
+      }
+    }
+
+    function save() {
+      alert("Copy this array into your site code:\n" + document.getElementById("imageList").value);
+    }
+  </script>
+</body>
+</html>
