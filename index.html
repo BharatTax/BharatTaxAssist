@@ -8,6 +8,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
       background: #f9f9f9;
       color: #333;
     }
@@ -15,16 +16,14 @@
       background: #008000;
       color: white;
       padding: 20px;
+      text-align: center;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .hamburger {
+    .menu-icon {
       position: absolute;
       left: 20px;
       top: 20px;
-      font-size: 28px;
+      font-size: 24px;
       cursor: pointer;
     }
     nav a {
@@ -33,50 +32,45 @@
       text-decoration: none;
       font-weight: bold;
     }
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
-      background: #004d00;
-      color: white;
-      padding: 20px;
-      transition: left 0.3s ease;
-      z-index: 1000;
-    }
-    .sidebar.active {
-      left: 0;
-    }
-    .sidebar h3 {
-      margin-top: 0;
-    }
-    .sidebar button {
+    .menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 20px;
       background: white;
-      color: #004d00;
+      border: 1px solid #ccc;
+      padding: 10px;
+      z-index: 100;
+    }
+    .menu button {
+      display: block;
+      width: 100%;
+      background: none;
       border: none;
       padding: 10px;
-      margin-top: 10px;
+      text-align: left;
       cursor: pointer;
-      width: 100%;
-      border-radius: 4px;
-    }
-    .admin-login {
-      display: none;
-      margin-top: 20px;
-    }
-    .admin-upload {
-      display: none;
-      margin-top: 20px;
     }
     .hero {
+      height: 300px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 60px 20px;
-      background: #e6ffe6;
+      position: relative;
       background-size: cover;
       background-position: center;
-      transition: background-image 1s ease-in-out;
-      color: black;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+    .hero h1, .hero p {
+      position: relative;
+      z-index: 2;
     }
     .section {
       padding: 40px 20px;
@@ -130,140 +124,139 @@
       text-align: center;
       padding: 15px;
     }
+    #adminPanel {
+      display: none;
+      padding: 20px;
+      background: #fff;
+      max-width: 600px;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+    }
+    #adminPanel textarea {
+      width: 100%;
+      height: 120px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="hamburger" onclick="toggleSidebar()">☰</div>
-  <h1>Bharat TaxAssist</h1>
-</header>
+  <header>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <h1>Bharat TaxAssist</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#form">Call Back</a>
+    </nav>
+    <div class="menu" id="menu">
+      <button onclick="askPassword()">Admin</button>
+    </div>
+  </header>
 
-<!-- Sidebar menu -->
-<div class="sidebar" id="sidebar">
-  <h3>Menu</h3>
-  <button onclick="closeSidebar()">Home</button>
-  <button onclick="closeSidebar()">Services</button>
-  <button onclick="closeSidebar()">Contact</button>
-  <button onclick="showAdminLogin()">Admin</button>
+  <section class="hero" id="hero">
+    <div class="overlay"></div>
+    <h1>Register & Start Your Business</h1>
+    <p>GST | MSME | Income Tax | Company Registration</p>
+  </section>
 
-  <div class="admin-login" id="adminLogin">
-    <input type="password" id="adminPassword" placeholder="Enter password" />
-    <button onclick="validateAdmin()">Submit</button>
+  <div id="adminPanel">
+    <h3>Admin Panel: Set Slideshow Image Links</h3>
+    <textarea id="imageLinks" placeholder="Paste direct image links, one per line..."></textarea>
+    <button onclick="saveLinks()">Save Links</button>
   </div>
 
-  <div class="admin-upload" id="adminUpload">
-    <label>Upload slideshow images:</label>
-    <input type="file" id="slideshowInput" multiple accept="image/*" />
-  </div>
-</div>
-
-<!-- Hero section with slideshow -->
-<section class="hero" id="hero">
-  <h1>Register & Start Your Business</h1>
-  <p>GST | MSME | Income Tax | Company Registration</p>
-</section>
-
-<!-- Main content -->
-<section class="section" id="services">
-  <h2 style="text-align:center;">Our Services</h2>
-  <div class="services">
-    <div class="card">
-      <h3>GST Registration</h3>
-      <p>Fast GST filing & registration for individuals and businesses.</p>
-      <p><strong>₹999</strong></p>
+  <section class="section" id="services">
+    <h2 style="text-align:center;">Our Services</h2>
+    <div class="services">
+      <div class="card">
+        <h3>GST Registration</h3>
+        <p>Fast GST filing & registration for individuals and businesses.</p>
+        <p><strong>₹999</strong></p>
+      </div>
+      <div class="card">
+        <h3>Income Tax Filing</h3>
+        <p>Get expert help with your ITR return at an affordable price.</p>
+        <p><strong>₹2000</strong></p>
+      </div>
+      <div class="card">
+        <h3>MSME Registration</h3>
+        <p>Register your business under MSME to enjoy government benefits.</p>
+        <p><strong>₹999</strong></p>
+      </div>
     </div>
-    <div class="card">
-      <h3>Income Tax Filing</h3>
-      <p>Get expert help with your ITR return at an affordable price.</p>
-      <p><strong>₹2000</strong></p>
-    </div>
-    <div class="card">
-      <h3>MSME Registration</h3>
-      <p>Register your business under MSME to enjoy government benefits.</p>
-      <p><strong>₹999</strong></p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" id="about">
-  <h2 style="text-align:center;">About Bharat TaxAssist</h2>
-  <p style="max-width:700px;margin:auto;text-align:center;">
-    We are your trusted tax filing and business registration partner in India.
-    With expert advisors and affordable pricing, we help you focus on growing your business while we handle the paperwork.
-  </p>
-</section>
+  <section class="section" id="about">
+    <h2 style="text-align:center;">About Bharat TaxAssist</h2>
+    <p style="max-width:700px;margin:auto;text-align:center;">
+      We are your trusted tax filing and business registration partner in India.
+      With expert advisors and affordable pricing, we help you focus on growing your business while we handle the paperwork.
+    </p>
+  </section>
 
-<section class="form-section" id="form">
-  <h2 style="text-align:center;">Get a Call Back</h2>
-  <form action="https://formspree.io/f/xovdezwy" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required />
-    <input type="tel" name="phone" placeholder="Phone Number" required />
-    <textarea name="message" placeholder="Message (Optional)" rows="4"></textarea>
-    <button type="submit">Request Call Back</button>
-  </form>
-  <p style="text-align:center;font-size:0.9rem;color:#666;">We’ll reach out within 24 hours.</p>
-</section>
+  <section class="form-section" id="form">
+    <h2 style="text-align:center;">Get a Call Back</h2>
+    <form action="https://formspree.io/f/xovdezwy" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <textarea name="message" placeholder="Message (Optional)" rows="4"></textarea>
+      <button type="submit">Request Call Back</button>
+    </form>
+    <p style="text-align:center;font-size:0.9rem;color:#666;">We’ll reach out within 24 hours.</p>
+  </section>
 
-<footer>
-  <p>&copy; 2025 Bharat TaxAssist. All rights reserved.</p>
-</footer>
+  <footer>
+    <p>&copy; 2025 Bharat TaxAssist. All rights reserved.</p>
+  </footer>
 
-<!-- JavaScript -->
-<script>
-  const sidebar = document.getElementById('sidebar');
-  const adminLogin = document.getElementById('adminLogin');
-  const adminUpload = document.getElementById('adminUpload');
-  const hero = document.getElementById('hero');
-  const input = document.getElementById('slideshowInput');
-  let slideImages = [];
-  let currentSlide = 0;
-  let interval;
+  <script>
+    let currentIndex = 0;
+    let images = [];
 
-  function toggleSidebar() {
-    sidebar.classList.toggle('active');
-  }
-
-  function closeSidebar() {
-    sidebar.classList.remove('active');
-  }
-
-  function showAdminLogin() {
-    adminLogin.style.display = "block";
-  }
-
-  function validateAdmin() {
-    const pass = document.getElementById('adminPassword').value;
-    if (pass === "Bharattaxassist@3010") {
-      adminUpload.style.display = "block";
-      alert("Access granted.");
-    } else {
-      alert("Incorrect password.");
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
-  }
 
-  input.addEventListener('change', function () {
-    slideImages = [];
-    for (let file of input.files) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        slideImages.push(e.target.result);
-        if (slideImages.length === 1) startSlideshow();
-      };
-      reader.readAsDataURL(file);
+    function askPassword() {
+      const pass = prompt("Enter admin password:");
+      if (pass === "Bharattaxassist@3010") {
+        document.getElementById("adminPanel").style.display = "block";
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("imageLinks").value = (localStorage.getItem("slideshowImages") || "").split(',').join('\n');
+      } else {
+        alert("Wrong password!");
+      }
     }
-  });
 
-  function startSlideshow() {
-    if (interval) clearInterval(interval);
-    hero.style.backgroundImage = `url('${slideImages[0]}')`;
-    currentSlide = 0;
-    interval = setInterval(() => {
-      currentSlide = (currentSlide + 1) % slideImages.length;
-      hero.style.backgroundImage = `url('${slideImages[currentSlide]}')`;
-    }, 4000);
-  }
-</script>
+    function saveLinks() {
+      const input = document.getElementById("imageLinks").value.trim();
+      const links = input.split("\n").filter(link => link.trim() !== "");
+      localStorage.setItem("slideshowImages", links.join(','));
+      alert("Slideshow updated!");
+      location.reload();
+    }
+
+    function startSlideshow() {
+      const saved = localStorage.getItem("slideshowImages");
+      if (!saved) return;
+      images = saved.split(",");
+      if (images.length === 0) return;
+      updateHeroBackground();
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateHeroBackground();
+      }, 4000);
+    }
+
+    function updateHeroBackground() {
+      const hero = document.getElementById("hero");
+      hero.style.backgroundImage = `url("${images[currentIndex]}")`;
+    }
+
+    window.onload = startSlideshow;
+  </script>
 
 </body>
 </html>
