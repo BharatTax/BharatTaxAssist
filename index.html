@@ -17,6 +17,15 @@
       color: white;
       padding: 20px;
       text-align: center;
+      position: relative;
+    }
+    .hamburger {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
     }
     nav a {
       color: white;
@@ -33,6 +42,10 @@
       background-position: center;
       color: #000;
       transition: background-image 1s ease-in-out;
+    }
+    #uploadContainer {
+      display: none;
+      margin-top: 20px;
     }
     .section {
       padding: 40px 20px;
@@ -97,6 +110,7 @@
 <body>
 
   <header>
+    <div class="hamburger" onclick="openMenu()">☰</div>
     <h1>Bharat TaxAssist</h1>
     <nav>
       <a href="#services">Services</a>
@@ -110,7 +124,7 @@
     <h1>Register & Start Your Business</h1>
     <p>GST | MSME | Income Tax | Company Registration</p>
 
-    <div style="margin-top: 20px;">
+    <div id="uploadContainer">
       <label for="slideshowUpload">Upload slideshow images:</label>
       <input type="file" id="slideshowUpload" multiple accept="image/*" />
     </div>
@@ -160,13 +174,23 @@
     <p>&copy; 2025 Bharat TaxAssist. All rights reserved.</p>
   </footer>
 
-  <!-- Slideshow Script -->
+  <!-- Slideshow + Menu Script -->
   <script>
     const hero = document.getElementById('hero');
     const input = document.getElementById('slideshowUpload');
+    const uploadContainer = document.getElementById('uploadContainer');
     let slideImages = [];
     let currentSlide = 0;
     let interval;
+
+    function openMenu() {
+      const password = prompt("Enter password to access upload:");
+      if (password === "Bharattaxassist@3010") {
+        uploadContainer.style.display = "block";
+      } else {
+        alert("Incorrect password.");
+      }
+    }
 
     input.addEventListener('change', function () {
       slideImages = [];
@@ -174,7 +198,7 @@
         const reader = new FileReader();
         reader.onload = function (e) {
           slideImages.push(e.target.result);
-          if (slideImages.length === 1) startSlideshow(); // Start when first image is ready
+          if (slideImages.length === 1) startSlideshow();
         };
         reader.readAsDataURL(file);
       }
@@ -187,7 +211,7 @@
       interval = setInterval(() => {
         currentSlide = (currentSlide + 1) % slideImages.length;
         hero.style.backgroundImage = `url('${slideImages[currentSlide]}')`;
-      }, 4000); // Change every 4 seconds
+      }, 4000);
     }
   </script>
 
