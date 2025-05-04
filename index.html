@@ -27,11 +27,18 @@
     .hero {
       padding: 60px 20px;
       text-align: center;
-      background: #e6ffe6;
+      color: black;
+      background-size: cover;
+      background-position: center;
+      position: relative;
     }
     .hero h1 {
       font-size: 2.5rem;
       margin-bottom: 10px;
+      background-color: rgba(255,255,255,0.7);
+      display: inline-block;
+      padding: 10px;
+      border-radius: 10px;
     }
     .section {
       padding: 40px 20px;
@@ -152,6 +159,25 @@
   <footer>
     <p>&copy; 2025 Bharat TaxAssist. All rights reserved.</p>
   </footer>
+
+  <script>
+    const images = [
+      'images/slide1.jpg',
+      'images/slide2.jpg',
+      'images/slide3.jpg'
+    ];
+
+    let index = 0;
+    const hero = document.querySelector('.hero');
+
+    function changeBackground() {
+      hero.style.backgroundImage = `url(${images[index]})`;
+      index = (index + 1) % images.length;
+    }
+
+    setInterval(changeBackground, 4000);
+    changeBackground();
+  </script>
 
 </body>
 </html>
