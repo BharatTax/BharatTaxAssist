@@ -25,20 +25,14 @@
       font-weight: bold;
     }
     .hero {
+      position: relative;
       padding: 60px 20px;
       text-align: center;
-      color: black;
+      background: #e6ffe6;
       background-size: cover;
       background-position: center;
-      position: relative;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      background-color: rgba(255,255,255,0.7);
-      display: inline-block;
-      padding: 10px;
-      border-radius: 10px;
+      color: #000;
+      transition: background-image 1s ease-in-out;
     }
     .section {
       padding: 40px 20px;
@@ -111,9 +105,15 @@
     </nav>
   </header>
 
-  <section class="hero">
+  <!-- Hero with slideshow upload -->
+  <section class="hero" id="hero">
     <h1>Register & Start Your Business</h1>
     <p>GST | MSME | Income Tax | Company Registration</p>
+
+    <div style="margin-top: 20px;">
+      <label for="slideshowUpload">Upload slideshow images:</label>
+      <input type="file" id="slideshowUpload" multiple accept="image/*" />
+    </div>
   </section>
 
   <section class="section" id="services">
@@ -160,23 +160,35 @@
     <p>&copy; 2025 Bharat TaxAssist. All rights reserved.</p>
   </footer>
 
+  <!-- Slideshow Script -->
   <script>
-    const images = [
-      'images/slide1.jpg',
-      'images/slide2.jpg',
-      'images/slide3.jpg'
-    ];
+    const hero = document.getElementById('hero');
+    const input = document.getElementById('slideshowUpload');
+    let slideImages = [];
+    let currentSlide = 0;
+    let interval;
 
-    let index = 0;
-    const hero = document.querySelector('.hero');
+    input.addEventListener('change', function () {
+      slideImages = [];
+      for (let file of input.files) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          slideImages.push(e.target.result);
+          if (slideImages.length === 1) startSlideshow(); // Start when first image is ready
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
-    function changeBackground() {
-      hero.style.backgroundImage = `url(${images[index]})`;
-      index = (index + 1) % images.length;
+    function startSlideshow() {
+      if (interval) clearInterval(interval);
+      hero.style.backgroundImage = `url('${slideImages[0]}')`;
+      currentSlide = 0;
+      interval = setInterval(() => {
+        currentSlide = (currentSlide + 1) % slideImages.length;
+        hero.style.backgroundImage = `url('${slideImages[currentSlide]}')`;
+      }, 4000); // Change every 4 seconds
     }
-
-    setInterval(changeBackground, 4000);
-    changeBackground();
   </script>
 
 </body>
